@@ -5,7 +5,7 @@ import {
   TableForeignKey,
 } from 'typeorm';
 
-export class CreateTableCity1684362571093 implements MigrationInterface {
+export class CreateTableCity1684533775140 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(
       new Table({
@@ -50,18 +50,11 @@ export class CreateTableCity1684362571093 implements MigrationInterface {
         columnNames: ['state_id'],
         referencedColumnNames: ['id'],
         referencedTableName: 'state',
-        onDelete: 'CASCADE',
       }),
     );
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.dropTable('city');
-
-    const table = await queryRunner.getTable('city');
-    const foreignKey = table.foreignKeys.find(
-      (fk) => fk.columnNames.indexOf('state_id') !== -1,
-    );
-    await queryRunner.dropForeignKey('city', foreignKey);
   }
 }

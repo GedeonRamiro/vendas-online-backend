@@ -6,7 +6,7 @@ import { UserModule } from './user/user.module';
 @Module({
   imports: [
     ConfigModule.forRoot({
-      envFilePath: '.env.development.local',
+      envFilePath: '.env',
     }),
     TypeOrmModule.forRoot({
       type: 'mysql',
@@ -16,8 +16,8 @@ import { UserModule } from './user/user.module';
       password: process.env.DB_PASSWORD,
       database: process.env.DB_DATABASE,
       entities: [`${__dirname}/**/*.entity{.js,.ts}`],
-      migrations: [`${__dirname}/migration/{.ts,*.js}`],
-      migrationsRun: true,
+      /*   migrations: [`${__dirname}/migration/{.ts,*.js}`],
+      migrationsRun: true, */
     }),
     UserModule,
   ],

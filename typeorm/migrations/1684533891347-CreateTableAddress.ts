@@ -2,11 +2,10 @@ import {
   MigrationInterface,
   QueryRunner,
   Table,
-  TableColumn,
   TableForeignKey,
 } from 'typeorm';
 
-export class CreateTableAddress1684362590083 implements MigrationInterface {
+export class CreateTableAddress1684533891347 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(
       new Table({
@@ -70,7 +69,6 @@ export class CreateTableAddress1684362590083 implements MigrationInterface {
         columnNames: ['city_id'],
         referencedColumnNames: ['id'],
         referencedTableName: 'city',
-        onDelete: 'CASCADE',
       }),
     );
 
@@ -80,24 +78,11 @@ export class CreateTableAddress1684362590083 implements MigrationInterface {
         columnNames: ['user_id'],
         referencedColumnNames: ['id'],
         referencedTableName: 'user',
-        onDelete: 'CASCADE',
       }),
     );
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.dropTable('address');
-
-    const tableAddress = await queryRunner.getTable('address');
-    const foreignKeyAddress = tableAddress.foreignKeys.find(
-      (fk) => fk.columnNames.indexOf('city_id') !== -1,
-    );
-    await queryRunner.dropForeignKey('address', foreignKeyAddress);
-
-    const tableUser = await queryRunner.getTable('address');
-    const foreignKeyUser = tableUser.foreignKeys.find(
-      (fk) => fk.columnNames.indexOf('user_id') !== -1,
-    );
-    await queryRunner.dropForeignKey('address', foreignKeyUser);
   }
 }
