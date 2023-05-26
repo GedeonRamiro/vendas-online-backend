@@ -11,6 +11,11 @@ export class StateService {
   ) {}
 
   async getAllStates(): Promise<StateEntity[]> {
-    return this.StateRepository.find();
+    return await this.StateRepository.find();
+  }
+
+  async getState(id: string): Promise<StateEntity> {
+    const resultGetStateById = await this.StateRepository.findOneBy({ id });
+    return resultGetStateById;
   }
 }
