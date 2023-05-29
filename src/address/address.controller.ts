@@ -21,6 +21,6 @@ export class AddressController {
     @Param('userId') userId: string,
   ): Promise<AddressEntity> {
     console.log(userId);
-    return this.addressService.createAddress(createAddress, userId);
+    return await this.addressService.createAddress(createAddress, userId);
   }
 }
