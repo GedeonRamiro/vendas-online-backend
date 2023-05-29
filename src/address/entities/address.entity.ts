@@ -11,14 +11,11 @@ export class AddressEntity {
   @PrimaryGeneratedColumn('uuid')
   id?: string;
 
-  @Column({ name: 'name', nullable: false })
-  name: string;
-
   @Column({ name: 'user_id', nullable: false })
-  user_id: string;
+  userId: string;
 
   @Column({ name: 'city_id', nullable: false })
-  city_id: string;
+  cityId: string;
 
   @Column({ name: 'complement', nullable: true })
   complement: string;
