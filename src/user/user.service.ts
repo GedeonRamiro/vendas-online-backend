@@ -1,6 +1,6 @@
 import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { UserEntity } from './entities/user.entity';
-import { CreateUserDto } from './dtos/createUser.dto';
+import { CreateUserDto } from './dtos/CreateUser.dto';
 import { hash } from 'bcrypt';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -29,7 +29,10 @@ export class UserService {
   }
 
   async findUserById(id: string): Promise<UserEntity> {
-    const user = await this.userRepository.findOneBy({ id });
+    const user = await this.userRepository.findOne({
+      where: { id },
+      relations: ['addresses'],
+    });
 
     if (!user) throw new NotFoundException(`Usuário com id ${id} não existe!`);
 
