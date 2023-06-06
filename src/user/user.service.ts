@@ -1,4 +1,9 @@
-import { Inject, Injectable, NotFoundException } from '@nestjs/common';
+import {
+  BadGatewayException,
+  Inject,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { UserEntity } from './entities/user.entity';
 import { CreateUserDto } from './dtos/CreateUser.dto';
 import { hash } from 'bcrypt';
@@ -13,6 +18,7 @@ export class UserService {
   ) {}
 
   async createUser(createUserDto: CreateUserDto): Promise<UserEntity> {
+    await this.existEmail(createUserDto.email);
     const saltOrRounds = 10;
 
     const passwordHashed = await hash(createUserDto.password, saltOrRounds);
@@ -31,11 +37,29 @@ export class UserService {
   async findUserById(id: string): Promise<UserEntity> {
     const user = await this.userRepository.findOne({
       where: { id },
-      relations: ['addresses'],
+      relations: {
+        addresses: {
+          city: {
+            state: true,
+          },
+        },
+      },
     });
 
     if (!user) throw new NotFoundException(`Usuário com id ${id} não existe!`);
 
     return user;
+  }
+
+  async existEmail(email: string) {
+    const user = await this.userRepository.findOneBy({
+      email,
+    });
+
+    if (user) {
+      throw new BadGatewayException('Erro ao cadastrar usuário!');
+    }
+
+    return true;
   }
 }
