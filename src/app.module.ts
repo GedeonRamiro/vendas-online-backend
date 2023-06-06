@@ -5,6 +5,7 @@ import { UserModule } from './user/user.module';
 import { AddressModule } from './address/address.module';
 import { CityModule } from './city/city.module';
 import { StateModule } from './state/state.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -25,6 +26,7 @@ import { StateModule } from './state/state.module';
     CityModule,
     StateModule,
     StateModule,
+    AuthModule,
   ],
   controllers: [],
   providers: [],
