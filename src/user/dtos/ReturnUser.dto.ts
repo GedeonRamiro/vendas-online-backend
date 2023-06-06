@@ -9,14 +9,14 @@ export class ReturnUserDto {
   cpf: string;
   addresses: ReturnAddressDto[];
 
-  constructor(UserEntity: UserEntity) {
-    this.id = UserEntity.id;
-    this.name = UserEntity.name;
-    this.email = UserEntity.email;
-    this.phone = UserEntity.phone;
-    this.cpf = UserEntity.cpf;
-    this.addresses = UserEntity.addresses
-      ? UserEntity.addresses.map((address) => new ReturnAddressDto(address))
+  constructor(user: UserEntity) {
+    this.id = user.id;
+    this.name = user.name;
+    this.email = user.email;
+    this.phone = user.phone;
+    this.cpf = user.cpf;
+    this.addresses = user.addresses
+      ? user.addresses.map((address) => new ReturnAddressDto(address))
       : undefined;
   }
 }

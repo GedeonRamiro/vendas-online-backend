@@ -10,7 +10,6 @@ import {
 import { CreateUserDto } from './dtos/CreateUser.dto';
 import { UserService } from './user.service';
 import { ReturnUserDto } from './dtos/ReturnUser.dto';
-import { UserEntity } from './entities/user.entity';
 
 @Controller('user')
 export class UserController {
