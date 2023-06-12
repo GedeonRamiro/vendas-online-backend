@@ -9,17 +9,19 @@ import {
 import { AddressService } from './address.service';
 import { CreateAddressDto } from './dtos/CreateAddress.dto';
 import { AddressEntity } from './entities/address.entity';
+import { UserId } from 'src/decorator/user-id.decorator';
 
 @Controller('address')
 export class AddressController {
   constructor(private readonly addressService: AddressService) {}
 
-  @Post('/:userId')
+  @Post()
   @UsePipes(ValidationPipe)
   async createAddress(
     @Body() createAddress: CreateAddressDto,
-    @Param('userId') userId: string,
+    @UserId('userId') userId: string,
   ): Promise<AddressEntity> {
+    console.log(userId);
     return await this.addressService.createAddress(createAddress, userId);
   }
 }

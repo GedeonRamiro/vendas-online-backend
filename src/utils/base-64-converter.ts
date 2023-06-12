@@ -1,0 +1,14 @@
+import { LoginDto } from 'src/auth/dtos/LoginDto';
+import { LoginPayloadDto } from 'src/auth/dtos/LoginPayloadDto';
+
+export const authorizantionToLoginPayload = (
+  authorizantion: string,
+): LoginPayloadDto | undefined => {
+  const authorizantionSplited = authorizantion.split('.');
+
+  if (authorizantionSplited.length < 3 || !authorizantionSplited[1]) {
+    return undefined;
+  }
+
+  return JSON.parse(Buffer.from(authorizantionSplited[1], 'base64').toString());
+};
