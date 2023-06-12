@@ -10,7 +10,10 @@ import {
 import { CreateUserDto } from './dtos/CreateUser.dto';
 import { UserService } from './user.service';
 import { ReturnUserDto } from './dtos/ReturnUser.dto';
+import { Roles } from 'src/decorator/roles.decorator';
+import { UserType } from './enum/user-type.enum';
 
+@Roles(UserType.User)
 @Controller('user')
 export class UserController {
   constructor(private readonly userService: UserService) {}
