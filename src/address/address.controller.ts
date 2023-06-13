@@ -9,7 +9,7 @@ import {
 import { AddressService } from './address.service';
 import { CreateAddressDto } from './dtos/CreateAddress.dto';
 import { AddressEntity } from './entities/address.entity';
-import { UserId } from 'src/decorator/user-id.decorator';
+import { UserId } from '../decorator/user-id.decorator';
 
 @Controller('address')
 export class AddressController {
