@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { AddressEntity } from './entities/address.entity';
 import { Repository } from 'typeorm';
@@ -10,7 +10,7 @@ import { UserService } from '../user/user.service';
 export class AddressService {
   constructor(
     @InjectRepository(AddressEntity)
-    private readonly AddressRepository: Repository<AddressEntity>,
+    private readonly addressRepository: Repository<AddressEntity>,
     private readonly cityService: CityService,
     private readonly userService: UserService,
   ) {}
@@ -22,9 +22,30 @@ export class AddressService {
     await this.userService.findUserById(userId);
     await this.cityService.findCityById(createAddressDto.cityId);
 
-    return await this.AddressRepository.save({
+    return await this.addressRepository.save({
       ...createAddressDto,
       userId,
     });
+  }
+
+  async findAddressByUserId(userId: string): Promise<AddressEntity[]> {
+    const address = await this.addressRepository.find({
+      where: {
+        userId,
+      },
+      relations: {
+        city: {
+          state: true,
+        },
+      },
+    });
+
+    if (!address) {
+      throw new NotFoundException(
+        `Endereço com usuário id ${userId} não existe!`,
+      );
+    }
+
+    return address;
   }
 }
