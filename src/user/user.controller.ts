@@ -13,7 +13,6 @@ import { ReturnUserDto } from './dtos/ReturnUser.dto';
 import { Roles } from '../decorator/roles.decorator';
 import { UserType } from './enum/user-type.enum';
 
-@Roles(UserType.User)
 @Controller('user')
 export class UserController {
   constructor(private readonly userService: UserService) {}
