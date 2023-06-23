@@ -85,7 +85,7 @@ describe('AddressService', () => {
   it('should return all addresses to user', async () => {
     const address = await service.findAddressByUserId(userEntityMock.id);
 
-    expect(address).toEqual(addressMock);
+    expect(address).toEqual([addressMock]);
   });
 
   it('should return not found if not address registred', async () => {
