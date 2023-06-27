@@ -1,6 +1,5 @@
-import { CategoryEntity } from 'src/category/entities/category.entity';
-import { AddressEntity } from '../../address/entities/address.entity';
-import { StateEntity } from '../../state/entities/state.entity';
+import { CategoryEntity } from '../../category/entities/category.entity';
+
 import {
   Column,
   CreateDateColumn,
