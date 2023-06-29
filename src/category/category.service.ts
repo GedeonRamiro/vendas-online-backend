@@ -37,6 +37,20 @@ export class CategoryService {
     return categoty;
   }
 
+  async findCategoryById(id: string): Promise<CategoryEntity> {
+    console.log(id);
+    const categoty = await this.categoryRepository.findOne({
+      where: { id },
+    });
+    console.log(categoty);
+
+    if (!categoty) {
+      throw new NotFoundException(`Category id: ${id} not found`);
+    }
+
+    return categoty;
+  }
+
   async createCategory(
     createCategory: CreateCategoryDto,
   ): Promise<CategoryEntity> {
