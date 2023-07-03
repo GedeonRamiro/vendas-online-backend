@@ -1,6 +1,6 @@
-import { CategoryEntity } from 'src/category/entities/category.entity';
+import { CategoryEntity } from '../../category/entities/category.entity';
 import { ProductEntity } from '../entities/product.entity';
-import { ReturnCategoryDto } from 'src/category/dtos/ReturnCategory.dto';
+import { ReturnCategoryDto } from '../../category/dtos/ReturnCategory.dto';
 
 export class ReturnProductDto {
   id: string;
