@@ -34,6 +34,7 @@ export class ProductController {
     return this.productService.deleteProduct(productId);
   }
 
+  @UsePipes(ValidationPipe)
   @Put('/:productId')
   async updateProduct(
     @Param('productId') productId: string,
