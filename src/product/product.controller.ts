@@ -1,7 +1,9 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
+  Param,
   Post,
   UsePipes,
   ValidationPipe,
@@ -10,6 +12,7 @@ import { ProductService } from './product.service';
 import { ReturnProductDto } from './dtos/ReturnProduct.dto';
 import { CreateProductDto } from './dtos/CreateProduct.dto';
 import { ProductEntity } from './entities/product.entity';
+import { DeleteResult } from 'typeorm';
 
 @Controller('product')
 export class ProductController {
@@ -20,6 +23,13 @@ export class ProductController {
     return (await this.productService.findAllProducts()).map(
       (product) => new ReturnProductDto(product),
     );
+  }
+
+  @Delete('/:productId')
+  async deleteProduct(
+    @Param('productId') productId: string,
+  ): Promise<DeleteResult> {
+    return this.productService.deleteProduct(productId);
   }
 
   @UsePipes(ValidationPipe)
