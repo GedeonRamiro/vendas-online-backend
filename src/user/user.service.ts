@@ -1,14 +1,15 @@
 import {
   BadGatewayException,
-  Inject,
+  BadRequestException,
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
 import { UserEntity } from './entities/user.entity';
 import { CreateUserDto } from './dtos/CreateUser.dto';
-import { hash } from 'bcrypt';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
+import { PasswordBcryptjs } from '../utils/PasswordBcrypt';
+import { UpdatePasswordUserDto } from './dtos/UpdatePasswordUser.dto';
 
 @Injectable()
 export class UserService {
@@ -21,13 +22,39 @@ export class UserService {
     await this.existEmail(createUserDto.email);
     const saltOrRounds = 10;
 
-    const passwordHashed = await hash(createUserDto.password, saltOrRounds);
+    const passwordHashed = await PasswordBcryptjs.hashPasswords(
+      createUserDto.password,
+    );
 
     return await this.userRepository.save({
       ...createUserDto,
       typeUser: 1,
       password: passwordHashed,
     });
+  }
+
+  async updatePasswordUser(
+    userId: string,
+    updatePasswordUserDto: UpdatePasswordUserDto,
+  ): Promise<UserEntity> {
+    const user = await this.findUserById(userId);
+
+    const newPasswordHashed = await PasswordBcryptjs.hashPasswords(
+      updatePasswordUserDto.newPassword,
+    );
+
+    const isMatch = await PasswordBcryptjs.verifyPasswords(
+      updatePasswordUserDto.lastPassword,
+      user.password,
+    );
+
+    if (!isMatch) {
+      throw new BadRequestException('Last password invalid');
+    }
+
+    await this.userRepository.update(userId, { password: newPasswordHashed });
+
+    return user;
   }
 
   async getAllUsers(): Promise<UserEntity[]> {

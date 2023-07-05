@@ -4,6 +4,10 @@ import { getRepositoryToken } from '@nestjs/typeorm';
 import { UserService } from '../user.service';
 import { UserEntity } from '../entities/user.entity';
 import { userEntityMock } from '../__mocks__/user.mock';
+import {
+  updatePassworInvaliddMock,
+  updatePasswordMock,
+} from '../__mocks__/updateUser.mock';
 
 describe('UserService', () => {
   let service: UserService;
@@ -19,6 +23,7 @@ describe('UserService', () => {
             findOne: jest.fn().mockResolvedValue(userEntityMock),
             findOneBy: jest.fn().mockResolvedValue(userEntityMock),
             save: jest.fn().mockResolvedValue(userEntityMock),
+            update: jest.fn().mockResolvedValue(userEntityMock),
           },
         },
       ],
@@ -71,6 +76,28 @@ describe('UserService', () => {
 
     expect(
       service.findUserByEmail(userEntityMock.email),
+    ).rejects.toThrowError();
+  });
+
+  it('should return user in update password', async () => {
+    const user = await service.updatePasswordUser(
+      userEntityMock.id,
+      updatePasswordMock,
+    );
+
+    expect(user).toEqual(userEntityMock);
+  });
+
+  it('should return invalid password in error', async () => {
+    expect(
+      service.updatePasswordUser(userEntityMock.id, updatePassworInvaliddMock),
+    ).rejects.toThrowError();
+  });
+
+  it('should return error in user not exist', async () => {
+    jest.spyOn(userRepository, 'findOne').mockResolvedValue(undefined);
+    expect(
+      service.updatePasswordUser(userEntityMock.id, updatePasswordMock),
     ).rejects.toThrowError();
   });
 });

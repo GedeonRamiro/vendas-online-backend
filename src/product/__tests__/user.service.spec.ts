@@ -5,7 +5,7 @@ import { ProductService } from '../product.service';
 import { ProductEntity } from '../entities/product.entity';
 import { productMock } from '../__mocks__/product.mock';
 import { CategoryService } from '../../category/category.service';
-import { CategoryMock } from '../../category/__mocks__/category.mock';
+import { categoryMock } from '../../category/__mocks__/category.mock';
 import { createProductMock } from '../__mocks__/createProduct.mock';
 import { returnDeleteMock } from '../__mocks__/returnDeleteProeduct.mock';
 import { rejects } from 'assert';
@@ -22,7 +22,7 @@ describe('ProductService', () => {
         {
           provide: CategoryService,
           useValue: {
-            findCategoryById: jest.fn().mockResolvedValue(CategoryMock),
+            findCategoryById: jest.fn().mockResolvedValue(categoryMock),
           },
         },
 
