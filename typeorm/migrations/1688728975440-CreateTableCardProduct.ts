@@ -5,11 +5,11 @@ import {
   TableForeignKey,
 } from 'typeorm';
 
-export class CreateCard1688727895159 implements MigrationInterface {
+export class CreateTableCardProduct1688728975440 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(
       new Table({
-        name: 'cart',
+        name: 'cart_product',
         columns: [
           {
             name: 'id',
@@ -19,10 +19,19 @@ export class CreateCard1688727895159 implements MigrationInterface {
             generationStrategy: 'uuid',
             isUnique: true,
           },
-
           {
-            name: 'user_id',
+            name: 'cart_id',
             type: 'varchar',
+            isNullable: false,
+          },
+          {
+            name: 'product_id',
+            type: 'varchar',
+            isNullable: false,
+          },
+          {
+            name: 'amount',
+            type: 'int',
             isNullable: false,
           },
           {
@@ -40,16 +49,25 @@ export class CreateCard1688727895159 implements MigrationInterface {
     );
 
     await queryRunner.createForeignKey(
-      'cart',
+      'cart_product',
       new TableForeignKey({
-        columnNames: ['user_id'],
+        columnNames: ['cart_id'],
         referencedColumnNames: ['id'],
-        referencedTableName: 'user',
+        referencedTableName: 'cart',
+      }),
+    );
+
+    await queryRunner.createForeignKey(
+      'cart_product',
+      new TableForeignKey({
+        columnNames: ['product_id'],
+        referencedColumnNames: ['id'],
+        referencedTableName: 'product',
       }),
     );
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.dropTable('cart');
+    await queryRunner.dropTable('cart_product');
   }
 }

@@ -1,3 +1,4 @@
+import { CartProductEntity } from 'src/cart-product/entities/cart-product.entity';
 import {
   Column,
   CreateDateColumn,
@@ -9,8 +10,8 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 
-@Entity({ name: 'card' })
-export class CardEntity {
+@Entity({ name: 'cart' })
+export class CartEntity {
   @PrimaryGeneratedColumn('uuid')
   id?: string;
 
@@ -22,4 +23,7 @@ export class CardEntity {
 
   @UpdateDateColumn({ name: 'updated_at' })
   updatedAt: Date;
+
+  @OneToMany(() => CartProductEntity, (cartProduct) => cartProduct.cart)
+  cartProduct: CartProductEntity[];
 }
