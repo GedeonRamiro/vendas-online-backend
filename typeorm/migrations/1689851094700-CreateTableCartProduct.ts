@@ -5,7 +5,7 @@ import {
   TableForeignKey,
 } from 'typeorm';
 
-export class CreateTableCardProduct1688728975440 implements MigrationInterface {
+export class CreateTableCartProduct1689851094700 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(
       new Table({
@@ -54,15 +54,6 @@ export class CreateTableCardProduct1688728975440 implements MigrationInterface {
         columnNames: ['cart_id'],
         referencedColumnNames: ['id'],
         referencedTableName: 'cart',
-      }),
-    );
-
-    await queryRunner.createForeignKey(
-      'cart_product',
-      new TableForeignKey({
-        columnNames: ['product_id'],
-        referencedColumnNames: ['id'],
-        referencedTableName: 'product',
       }),
     );
   }
