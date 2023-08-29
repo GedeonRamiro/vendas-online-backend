@@ -60,4 +60,9 @@ export class CartController {
   ): Promise<DeleteResult> {
     return await this.cartService.deleteProductCart(productId, userId);
   }
+
+  @Delete()
+  async clearCart(@UserId() userId: string): Promise<DeleteResult> {
+    return this.cartService.clearCart(userId);
+  }
 }

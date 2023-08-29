@@ -6,6 +6,8 @@ import { InsertCartDTO } from './dtos/InsertCart.dto';
 import { CartProductService } from '../cart-product/cart-product.service';
 import { UpdateCartDTO } from './dtos/UpdateCart.dto';
 
+const LINE_AFFECTED = 1;
+
 @Injectable()
 export class CartService {
   constructor(
@@ -13,6 +15,20 @@ export class CartService {
     private readonly cartRepository: Repository<CartEntity>,
     private readonly cartProductService: CartProductService,
   ) {}
+
+  async clearCart(userId: string): Promise<DeleteResult> {
+    const cart = await this.findCartByUserId(userId);
+
+    await this.cartRepository.save({
+      ...cart,
+      active: false,
+    });
+
+    return {
+      raw: [],
+      affected: LINE_AFFECTED,
+    };
+  }
 
   async findCartByUserId(
     userId: string,
@@ -55,7 +71,7 @@ export class CartService {
 
     await this.cartProductService.insertProductInCart(insertCartDto, cart);
 
-    return this.findCartByUserId(userId, true);
+    return cart;
   }
 
   async updateProductInCart(

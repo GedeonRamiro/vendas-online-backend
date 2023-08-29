@@ -29,6 +29,7 @@ export class ProductController {
   async createProduct(
     @Body() createProduct: CreateProductDto,
   ): Promise<ProductEntity> {
+    console.log({ UserType });
     return await this.productService.createProduct(createProduct);
   }
 
