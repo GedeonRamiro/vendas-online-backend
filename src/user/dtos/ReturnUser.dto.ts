@@ -7,7 +7,7 @@ export class ReturnUserDto {
   email: string;
   phone: string;
   cpf: string;
-  addresses: ReturnAddressDto[];
+  addresses?: ReturnAddressDto[];
 
   constructor(user: UserEntity) {
     this.id = user.id;
