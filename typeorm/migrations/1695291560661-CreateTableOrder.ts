@@ -5,11 +5,11 @@ import {
   TableForeignKey,
 } from 'typeorm';
 
-export class CreateTablePayment1694775966689 implements MigrationInterface {
+export class CreateTableOrder1695291560661 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(
       new Table({
-        name: 'payment',
+        name: 'order',
         columns: [
           {
             name: 'id',
@@ -21,43 +21,24 @@ export class CreateTablePayment1694775966689 implements MigrationInterface {
           },
 
           {
-            name: 'status_id',
+            name: 'user_id',
             type: 'varchar',
             isNullable: false,
           },
           {
-            name: 'price',
-            type: 'double',
-            isNullable: false,
-          },
-          {
-            name: 'discount',
-            type: 'double',
-            isNullable: false,
-          },
-          {
-            name: 'final_price',
-            type: 'double',
-            isNullable: false,
-          },
-          {
-            name: 'type',
+            name: 'address_id',
             type: 'varchar',
             isNullable: false,
           },
           {
-            name: 'amount_payments',
-            type: 'int',
-            isNullable: false,
-          },
-          {
-            name: 'code',
-            type: 'varchar',
-            isNullable: false,
-          },
-          {
-            name: 'date_payment',
+            name: 'date',
             type: 'timestamp',
+            isNullable: false,
+          },
+          {
+            name: 'payment_id',
+            type: 'varchar',
+            isNullable: false,
           },
           {
             name: 'created_at',
@@ -74,16 +55,34 @@ export class CreateTablePayment1694775966689 implements MigrationInterface {
     );
 
     await queryRunner.createForeignKey(
-      'payment',
+      'order',
       new TableForeignKey({
-        columnNames: ['status_id'],
+        columnNames: ['user_id'],
         referencedColumnNames: ['id'],
-        referencedTableName: 'payment_status',
+        referencedTableName: 'user',
+      }),
+    );
+
+    await queryRunner.createForeignKey(
+      'order',
+      new TableForeignKey({
+        columnNames: ['address_id'],
+        referencedColumnNames: ['id'],
+        referencedTableName: 'address',
+      }),
+    );
+
+    await queryRunner.createForeignKey(
+      'order',
+      new TableForeignKey({
+        columnNames: ['payment_id'],
+        referencedColumnNames: ['id'],
+        referencedTableName: 'payment',
       }),
     );
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.dropTable('payment');
+    await queryRunner.dropTable('order');
   }
 }
