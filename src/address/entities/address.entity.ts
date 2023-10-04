@@ -1,3 +1,4 @@
+import { OrderEntity } from '../../order/entities/order.entity';
 import { CityEntity } from '../../city/entities/city.entity';
 import { UserEntity } from '../../user/entities/user.entity';
 import {
@@ -45,4 +46,8 @@ export class AddressEntity {
   @ManyToOne(() => CityEntity, (city) => city.addresses)
   @JoinColumn({ name: 'city_id', referencedColumnName: 'id' })
   city?: CityEntity;
+
+  @ManyToMany(() => OrderEntity, (order) => order.address)
+  @JoinColumn({ name: 'order_id', referencedColumnName: 'id' })
+  orders?: OrderEntity;
 }

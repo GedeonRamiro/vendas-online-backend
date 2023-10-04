@@ -1,7 +1,13 @@
+import { OrderEntity } from '../../order/entities/order.entity';
+import { paymentStatusEntity } from '../../payment-status/entities/payment.status.entity';
 import {
   Column,
   CreateDateColumn,
   Entity,
+  JoinColumn,
+  ManyToMany,
+  ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
   TableInheritance,
   UpdateDateColumn,
@@ -36,4 +42,11 @@ export abstract class PaymentEntity {
 
   @UpdateDateColumn({ name: 'updated_at' })
   updatedAt: Date;
+
+  @OneToMany(() => OrderEntity, (order) => order.payment)
+  orders?: OrderEntity[];
+
+  @ManyToOne(() => paymentStatusEntity, (payment) => payment.payments)
+  @JoinColumn({ name: 'status_id', referencedColumnName: 'id' })
+  paymentStatus?: paymentStatusEntity;
 }
