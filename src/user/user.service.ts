@@ -20,7 +20,6 @@ export class UserService {
 
   async createUser(createUserDto: CreateUserDto): Promise<UserEntity> {
     await this.existEmail(createUserDto.email);
-    const saltOrRounds = 10;
 
     const passwordHashed = await PasswordBcryptjs.hashPasswords(
       createUserDto.password,
