@@ -62,12 +62,10 @@ export class CreateTablePayment1694775966689 implements MigrationInterface {
           {
             name: 'created_at',
             type: 'timestamp',
-            default: 'CURRENT_TIMESTAMP()',
           },
           {
             name: 'updated_at',
             type: 'timestamp',
-            default: 'CURRENT_TIMESTAMP()',
           },
         ],
       }),

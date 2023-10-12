@@ -45,12 +45,10 @@ export class CreateTableOrderProduct1695291601091
           {
             name: 'created_at',
             type: 'timestamp',
-            default: 'CURRENT_TIMESTAMP()',
           },
           {
             name: 'updated_at',
             type: 'timestamp',
-            default: 'CURRENT_TIMESTAMP()',
           },
         ],
       }),

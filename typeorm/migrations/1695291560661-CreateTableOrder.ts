@@ -43,12 +43,10 @@ export class CreateTableOrder1695291560661 implements MigrationInterface {
           {
             name: 'created_at',
             type: 'timestamp',
-            default: 'CURRENT_TIMESTAMP()',
           },
           {
             name: 'updated_at',
             type: 'timestamp',
-            default: 'CURRENT_TIMESTAMP()',
           },
         ],
       }),
