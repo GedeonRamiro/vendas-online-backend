@@ -2,6 +2,7 @@ import {
   Body,
   Controller,
   Get,
+  Param,
   Post,
   UsePipes,
   ValidationPipe,
@@ -24,6 +25,14 @@ export class CategoryController {
       (category) => new ReturnCategoryDto(category),
     );
   }
+
+  @Get(':id')
+  async findCategoryById(@Param('id') id: string): Promise<ReturnCategoryDto> {
+    return new ReturnCategoryDto(
+      await this.categoryService.findCategoryById(id),
+    );
+  }
+
   @Roles(UserType.Admin)
   @UsePipes(ValidationPipe)
   @Post()
