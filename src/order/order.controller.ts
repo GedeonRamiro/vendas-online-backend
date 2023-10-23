@@ -7,7 +7,6 @@ import {
   ValidationPipe,
 } from '@nestjs/common';
 import { OrderService } from './order.service';
-import { Validate } from 'class-validator';
 import { CreateOrderDto } from './dtos/CreateOrder.dto';
 
 @Controller('order')

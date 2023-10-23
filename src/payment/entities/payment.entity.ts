@@ -1,5 +1,5 @@
 import { OrderEntity } from '../../order/entities/order.entity';
-import { paymentStatusEntity } from '../../payment-status/entities/payment.status.entity';
+import { PaymentStatusEntity } from '../../payment-status/entities/payment.status.entity';
 import {
   Column,
   CreateDateColumn,
@@ -20,7 +20,7 @@ export abstract class PaymentEntity {
   id?: string;
 
   @Column({ name: 'status_id', nullable: false })
-  name: string;
+  statusId: string;
 
   @Column({ name: 'price', nullable: false })
   price: number;
@@ -34,9 +34,6 @@ export abstract class PaymentEntity {
   @Column({ name: 'type', nullable: false })
   type: string;
 
-  @Column({ name: 'amount_payments', nullable: false })
-  amountPayments: number;
-
   @CreateDateColumn({ name: 'created_at' })
   createdAt: Date;
 
@@ -46,7 +43,19 @@ export abstract class PaymentEntity {
   @OneToMany(() => OrderEntity, (order) => order.payment)
   orders?: OrderEntity[];
 
-  @ManyToOne(() => paymentStatusEntity, (payment) => payment.payments)
+  @ManyToOne(() => PaymentStatusEntity, (payment) => payment.payments)
   @JoinColumn({ name: 'status_id', referencedColumnName: 'id' })
-  paymentStatus?: paymentStatusEntity;
+  paymentStatus?: PaymentStatusEntity;
+
+  constructor(
+    statusId: string,
+    price: number,
+    discount: number,
+    finalPrice: number,
+  ) {
+    this.statusId = statusId;
+    this.price = price;
+    this.discount = discount;
+    this.finalPrice = finalPrice;
+  }
 }

@@ -5,7 +5,7 @@ import {
   TableForeignKey,
 } from 'typeorm';
 
-export class CreateTablePayment1694775966689 implements MigrationInterface {
+export class CreateTablePayment1697825426781 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(
       new Table({
@@ -48,16 +48,17 @@ export class CreateTablePayment1694775966689 implements MigrationInterface {
           {
             name: 'amount_payments',
             type: 'int',
-            isNullable: false,
+            isNullable: true,
           },
           {
             name: 'code',
             type: 'varchar',
-            isNullable: false,
+            isNullable: true,
           },
           {
             name: 'date_payment',
             type: 'timestamp',
+            isNullable: true,
           },
           {
             name: 'created_at',
@@ -80,7 +81,6 @@ export class CreateTablePayment1694775966689 implements MigrationInterface {
       }),
     );
   }
-
   public async down(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.dropTable('payment');
   }

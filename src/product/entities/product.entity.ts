@@ -36,16 +36,14 @@ export class ProductEntity {
   @UpdateDateColumn({ name: 'updated_at' })
   updatedAt: Date;
 
+  @OneToMany(() => CartProductEntity, (cartProduct) => cartProduct.product)
+  cartProduct?: CartProductEntity[];
   @ManyToOne(
     () => CategoryEntity,
     (category: CategoryEntity) => category.products,
   )
   @JoinColumn({ name: 'category_id', referencedColumnName: 'id' })
   category?: CategoryEntity;
-
-  @OneToMany(() => CartProductEntity, (cartProduct) => cartProduct.product)
-  cartProduct?: CartProductEntity[];
-
   @OneToMany(() => OrderProductEntity, (orderProduct) => orderProduct.product)
   ordersProduct?: OrderProductEntity[];
 }
