@@ -16,13 +16,13 @@ export class OrderProductEntity {
   id?: string;
 
   @Column({ name: 'order_id', nullable: false })
-  orderId: number;
+  orderId: string;
 
   @Column({ name: 'product_id', nullable: false })
-  productId: number;
+  productId: string;
 
   @Column({ name: 'amount', nullable: false })
-  amount: Date;
+  amount: number;
 
   @Column({ name: 'price', nullable: false })
   price: number;

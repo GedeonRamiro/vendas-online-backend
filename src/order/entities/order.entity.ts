@@ -28,7 +28,7 @@ export class OrderEntity {
   date: Date;
 
   @Column({ name: 'payment_id', nullable: false })
-  paymentId: number;
+  paymentId: string;
 
   @CreateDateColumn({ name: 'created_at' })
   createdAt: Date;

@@ -30,6 +30,7 @@ export class AddressController {
   async findAddressByUserId(
     @UserId('userId') userId: string,
   ): Promise<ReturnAddressDto[]> {
+    console.log(userId);
     const address = (await this.addressService.findAddressByUserId(userId)).map(
       (addressEntity) => new ReturnAddressDto(addressEntity),
     );

@@ -5,7 +5,7 @@ import { Repository } from 'typeorm';
 import { PaymentCreditCardEntity } from './entities/payment.credit-card.entity';
 import { PaymentEntity } from './entities/payment.entity';
 import { PaymentPixEntity } from './entities/payment.pix.entity';
-import { PaymentType } from 'src/payment-status/enums/payment-type.enum';
+import { PaymentType } from '../payment-status/enums/payment-type.enum';
 
 @Injectable()
 export class PaymentService {
