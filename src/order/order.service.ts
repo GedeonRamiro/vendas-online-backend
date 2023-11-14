@@ -7,6 +7,7 @@ import { PaymentService } from '../payment/payment.service';
 import { PaymentEntity } from '../payment/entities/payment.entity';
 import { CartService } from 'src/cart/cart.service';
 import { OrderProductService } from 'src/order-product/order-product.service';
+import { ProductService } from 'src/product/product.service';
 
 @Injectable()
 export class OrderService {
@@ -16,13 +17,14 @@ export class OrderService {
     private readonly paymentService: PaymentService,
     private readonly cartService: CartService,
     private readonly orderProductService: OrderProductService,
+    private readonly productService: ProductService,
   ) {}
 
   async createOrder(
     createOrder: CreateOrderDto,
     cartId: string,
     userId: string,
-  ) {
+  ): Promise<OrderEntity> {
     const payment: PaymentEntity = await this.paymentService.createPayment(
       createOrder,
     );
@@ -36,15 +38,22 @@ export class OrderService {
 
     const cart = await this.cartService.findCartByUserId(userId, true);
 
-    cart.cartProduct.map((cartProduct) => {
-      this.orderProductService.createOrderProduct(
-        cartProduct.productId,
-        order.id,
-        0,
-        cartProduct.amount,
-      );
-    });
+    const products = await this.productService.findAllProducts(
+      cart.cartProduct?.map((cartProduct) => cartProduct.productId),
+    );
 
-    return null;
+    await Promise.all(
+      cart.cartProduct.map((cartProduct) => {
+        this.orderProductService.createOrderProduct(
+          cartProduct.productId,
+          order.id,
+          products.find((product) => product.id === cartProduct.productId)
+            ?.price || 0,
+          cartProduct.amount,
+        );
+      }),
+    );
+
+    return order;
   }
 }
