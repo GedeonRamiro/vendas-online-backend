@@ -14,13 +14,13 @@ import { UserId } from '../decorator/user-id.decorator';
 export class OrderController {
   constructor(private readonly OrderService: OrderService) {}
 
-  @Post('cart/:cartId')
+  @Post()
   @UsePipes(ValidationPipe)
   async createOrder(
     @Body() createOrder: CreateOrderDto,
     @Param() cartId: string,
     @UserId('userId') userId: string,
   ) {
-    return this.OrderService.createOrder(createOrder, cartId, userId);
+    return this.OrderService.createOrder(createOrder, userId);
   }
 }
