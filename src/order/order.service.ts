@@ -5,12 +5,13 @@ import { Repository } from 'typeorm';
 import { CreateOrderDto } from './dtos/CreateOrder.dto';
 import { PaymentService } from '../payment/payment.service';
 import { PaymentEntity } from '../payment/entities/payment.entity';
-import { CartService } from 'src/cart/cart.service';
-import { OrderProductService } from 'src/order-product/order-product.service';
-import { ProductService } from 'src/product/product.service';
-import { ProductEntity } from 'src/product/entities/product.entity';
-import { CartEntity } from 'src/cart/entities/cart.entity';
-import { OrderProductEntity } from 'src/order-product/entities/order-product.entity';
+import { CartService } from '../cart/cart.service';
+import { OrderProductService } from '../order-product/order-product.service';
+import { ProductService } from '../product/product.service';
+import { ProductEntity } from '../product/entities/product.entity';
+import { CartEntity } from '../cart/entities/cart.entity';
+import { OrderProductEntity } from '../order-product/entities/order-product.entity';
+import { AddressService } from 'src/address/address.service';
 
 @Injectable()
 export class OrderService {
@@ -21,6 +22,7 @@ export class OrderService {
     private readonly cartService: CartService,
     private readonly orderProductService: OrderProductService,
     private readonly productService: ProductService,
+    private readonly addressService: AddressService,
   ) {}
 
   async saveOrder(
@@ -58,6 +60,8 @@ export class OrderService {
     createOrderDto: CreateOrderDto,
     userId: string,
   ): Promise<OrderEntity> {
+    await this.addressService.findAddressById(createOrderDto.addressId);
+
     const cart = await this.cartService.findCartByUserId(userId, true);
 
     const products = await this.productService.findAllProducts(
@@ -73,8 +77,31 @@ export class OrderService {
 
     await this.createOrderproductUsingCart(cart, order.id, products);
 
-    //await this.cartService.clearCart(userId);
+    await this.cartService.clearCart(userId);
 
     return order;
+  }
+
+  async findOrdersByUserId(userId: string): Promise<OrderEntity[]> {
+    const orders = await this.OrderRepository.find({
+      where: {
+        userId,
+      },
+      relations: {
+        address: {
+          city: {
+            state: true,
+          },
+        },
+        ordersProduct: {
+          product: true,
+        },
+        payment: {
+          paymentStatus: true,
+        },
+      },
+    });
+
+    return orders;
   }
 }

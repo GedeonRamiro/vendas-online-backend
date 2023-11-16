@@ -48,4 +48,11 @@ export class AddressService {
 
     return address;
   }
+
+  async findAddressById(id: string): Promise<AddressEntity> {
+    const address = await this.addressRepository.findOneBy({ id });
+    if (!address)
+      throw new NotFoundException(`Endereço com id ${id} não existe!`);
+    return address;
+  }
 }
