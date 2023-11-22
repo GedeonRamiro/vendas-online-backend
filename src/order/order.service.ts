@@ -11,7 +11,7 @@ import { ProductService } from '../product/product.service';
 import { ProductEntity } from '../product/entities/product.entity';
 import { CartEntity } from '../cart/entities/cart.entity';
 import { OrderProductEntity } from '../order-product/entities/order-product.entity';
-import { AddressService } from 'src/address/address.service';
+import { AddressService } from '../address/address.service';
 
 @Injectable()
 export class OrderService {
