@@ -2,7 +2,6 @@ import {
   Body,
   Controller,
   Get,
-  Param,
   Post,
   UsePipes,
   ValidationPipe,
@@ -14,7 +13,7 @@ import { OrderEntity } from './entities/order.entity';
 
 @Controller('order')
 export class OrderController {
-  constructor(private readonly OrderService: OrderService) {}
+  constructor(private readonly orderService: OrderService) {}
 
   @Post()
   @UsePipes(ValidationPipe)
@@ -22,11 +21,11 @@ export class OrderController {
     @Body() createOrder: CreateOrderDto,
     @UserId('userId') userId: string,
   ) {
-    return this.OrderService.createOrder(createOrder, userId);
+    return this.orderService.createOrder(createOrder, userId);
   }
 
   @Get()
   async findOrdersByUserId(@UserId() userId: string): Promise<OrderEntity[]> {
-    return this.OrderService.findOrdersByUserId(userId);
+    return this.orderService.findOrdersByUserId(userId);
   }
 }

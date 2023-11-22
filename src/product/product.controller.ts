@@ -13,7 +13,7 @@ import { ProductService } from './product.service';
 import { ReturnProductDto } from './dtos/ReturnProduct.dto';
 import { CreateProductDto } from './dtos/CreateProduct.dto';
 import { ProductEntity } from './entities/product.entity';
-import { DeleteResult, UpdateResult } from 'typeorm';
+import { DeleteResult } from 'typeorm';
 import { UpdateProductDto } from './dtos/UpdateProduct.dto';
 import { Roles } from '../decorator/roles.decorator';
 import { UserType } from '../user/enum/user-type.enum';

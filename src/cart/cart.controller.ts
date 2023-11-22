@@ -10,7 +10,6 @@ import {
   ValidationPipe,
 } from '@nestjs/common';
 import { CartService } from './cart.service';
-import { CartEntity } from './entities/cart.entity';
 import { InsertCartDTO } from './dtos/InsertCart.dto';
 import { UserId } from '../decorator/user-id.decorator';
 import { Roles } from '../decorator/roles.decorator';

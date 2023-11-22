@@ -1,4 +1,3 @@
-import { CategoryEntity } from '../../category/entities/category.entity';
 import { ProductEntity } from '../entities/product.entity';
 import { ReturnCategoryDto } from '../../category/dtos/ReturnCategory.dto';
 
