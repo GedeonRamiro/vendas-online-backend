@@ -19,8 +19,8 @@ export class OrderProductService {
     return this.orderProductRepository.save({
       productId,
       orderId,
-      amount,
       price,
+      amount,
     });
   }
 }
