@@ -3,7 +3,7 @@ import { CartProductEntity } from '../entities/cart-product.entity';
 import { productMock } from '../../product/__mocks__/product.mock';
 
 export const cartProductMock: CartProductEntity = {
-  amount: 5435,
+  amount: 2,
   cartId: cartMock.id,
   createdAt: new Date(),
   id: 'dgdfkdkbffsd',
