@@ -4,5 +4,5 @@ import { paymentMock } from './payment.mock';
 export const paymentPixMock: PaymentPixEntity = {
   ...paymentMock,
   codePix: 'sddsl4389ksld',
-  datePayment: new Date(),
+  datePayment: new Date('2023-10-10'),
 };
