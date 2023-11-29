@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { OrderEntity } from './entities/order.entity';
 import { Repository } from 'typeorm';
@@ -38,7 +38,7 @@ export class OrderService {
     });
   }
 
-  async createOrderproductUsingCart(
+  async createOrderProductUsingCart(
     cart: CartEntity,
     orderId: string,
     products: ProductEntity[],
@@ -75,7 +75,7 @@ export class OrderService {
     );
     const order = await this.saveOrder(createOrderDto, userId, payment);
 
-    await this.createOrderproductUsingCart(cart, order.id, products);
+    await this.createOrderProductUsingCart(cart, order.id, products);
 
     await this.cartService.clearCart(userId);
 
@@ -101,6 +101,10 @@ export class OrderService {
         },
       },
     });
+
+    if (!orders || orders.length === 0) {
+      throw new NotFoundException('Orders not found');
+    }
 
     return orders;
   }
