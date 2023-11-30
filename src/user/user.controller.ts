@@ -27,13 +27,19 @@ export class UserController {
   }
 
   @Roles(UserType.Admin)
-  @Get()
+  @Get('/all')
   async getAllUsers(): Promise<ReturnUserDto[]> {
     const users = (await this.userService.getAllUsers()).map(
       (userEntity) => new ReturnUserDto(userEntity),
     );
 
     return users;
+  }
+
+  @Roles(UserType.Admin, UserType.User)
+  @Get()
+  async getInfoUser(@UserId('userId') userId: string): Promise<ReturnUserDto> {
+    return new ReturnUserDto(await this.userService.findUserById(userId));
   }
 
   @Roles(UserType.Admin)
