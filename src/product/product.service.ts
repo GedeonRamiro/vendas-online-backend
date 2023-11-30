@@ -14,7 +14,10 @@ export class ProductService {
     private readonly categoryService: CategoryService,
   ) {}
 
-  async findAllProducts(productsId?: string[]): Promise<ProductEntity[]> {
+  async findAllProducts(
+    productsId?: string[],
+    isFindRelations?: boolean,
+  ): Promise<ProductEntity[]> {
     let findOptions = {};
 
     if (productsId && productsId.length > 0) {
@@ -23,11 +26,23 @@ export class ProductService {
       };
     }
 
+    if (isFindRelations) {
+      findOptions = {
+        ...findOptions,
+        relations: {
+          category: true,
+        },
+      };
+    }
+
     const products = await this.productRepository.find(findOptions);
 
     if (!products || products.length === 0) {
       throw new NotFoundException('Products empty');
     }
+
+    console.log({ findOptions });
+    console.log({ products });
 
     return products;
   }
