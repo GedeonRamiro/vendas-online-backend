@@ -1,3 +1,3 @@
 export enum PaymentType {
-  Done = '4e10d180-6284-4adf-9jke-d93a035dea4f',
+  Done = '7c98a42a-9c57-4e5b-be52-c32da7aa13ag',
 }

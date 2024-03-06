@@ -24,7 +24,7 @@ export class ProductEntity {
   @Column({ name: 'category_id', nullable: false })
   categoryId: string;
 
-  @Column({ name: 'price', nullable: false })
+  @Column({ name: 'price', type: 'decimal', nullable: false })
   price: number;
 
   @Column({ name: 'image', nullable: false })
@@ -44,6 +44,7 @@ export class ProductEntity {
   )
   @JoinColumn({ name: 'category_id', referencedColumnName: 'id' })
   category?: CategoryEntity;
+
   @OneToMany(() => OrderProductEntity, (orderProduct) => orderProduct.product)
   ordersProduct?: OrderProductEntity[];
 }

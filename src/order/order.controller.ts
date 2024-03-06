@@ -18,10 +18,10 @@ export class OrderController {
   @Post()
   @UsePipes(ValidationPipe)
   async createOrder(
-    @Body() createOrder: CreateOrderDto,
-    @UserId('userId') userId: string,
-  ): Promise<OrderEntity> {
-    return this.orderService.createOrder(createOrder, userId);
+    @Body() createOrderDTO: CreateOrderDto,
+    @UserId() userId: string,
+  ) {
+    return this.orderService.createOrder(createOrderDTO, userId);
   }
 
   @Get()

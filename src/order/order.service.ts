@@ -11,18 +11,16 @@ import { ProductService } from '../product/product.service';
 import { ProductEntity } from '../product/entities/product.entity';
 import { CartEntity } from '../cart/entities/cart.entity';
 import { OrderProductEntity } from '../order-product/entities/order-product.entity';
-import { AddressService } from '../address/address.service';
 
 @Injectable()
 export class OrderService {
   constructor(
     @InjectRepository(OrderEntity)
-    private readonly OrderRepository: Repository<OrderEntity>,
+    private readonly orderRepository: Repository<OrderEntity>,
     private readonly paymentService: PaymentService,
     private readonly cartService: CartService,
     private readonly orderProductService: OrderProductService,
     private readonly productService: ProductService,
-    private readonly addressService: AddressService,
   ) {}
 
   async saveOrder(
@@ -30,7 +28,7 @@ export class OrderService {
     userId: string,
     payment: PaymentEntity,
   ): Promise<OrderEntity> {
-    return this.OrderRepository.save({
+    return this.orderRepository.save({
       addressId: createOrder.addressId,
       date: new Date(),
       paymentId: payment.id,
@@ -57,23 +55,21 @@ export class OrderService {
   }
 
   async createOrder(
-    createOrderDto: CreateOrderDto,
+    createOrderDTO: CreateOrderDto,
     userId: string,
   ): Promise<OrderEntity> {
-    await this.addressService.findAddressById(createOrderDto.addressId);
-
     const cart = await this.cartService.findCartByUserId(userId, true);
-
     const products = await this.productService.findAllProducts(
       cart.cartProduct?.map((cartProduct) => cartProduct.productId),
     );
 
     const payment: PaymentEntity = await this.paymentService.createPayment(
-      createOrderDto,
+      createOrderDTO,
       products,
       cart,
     );
-    const order = await this.saveOrder(createOrderDto, userId, payment);
+
+    const order = await this.saveOrder(createOrderDTO, userId, payment);
 
     await this.createOrderProductUsingCart(cart, order.id, products);
 
@@ -83,7 +79,7 @@ export class OrderService {
   }
 
   async findOrdersByUserId(userId: string): Promise<OrderEntity[]> {
-    const orders = await this.OrderRepository.find({
+    const orders = await this.orderRepository.find({
       where: {
         userId,
       },
@@ -103,7 +99,7 @@ export class OrderService {
     });
 
     if (!orders || orders.length === 0) {
-      throw new NotFoundException('Orders not found!');
+      throw new NotFoundException('Orders not found');
     }
 
     return orders;

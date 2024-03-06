@@ -21,9 +21,7 @@ export class CategoryController {
 
   @Get()
   async findAllCategories(): Promise<ReturnCategoryDto[]> {
-    return (await this.categoryService.findAllCategories()).map(
-      (category) => new ReturnCategoryDto(category),
-    );
+    return await this.categoryService.findAllCategories();
   }
 
   @Get(':id')

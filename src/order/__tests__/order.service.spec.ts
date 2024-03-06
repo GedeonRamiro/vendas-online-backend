@@ -181,7 +181,6 @@ describe('OrderService', () => {
 
   it('should return order in create order success', async () => {
     const spyCartService = jest.spyOn(cartService, 'findCartByUserId');
-    const spyAddressService = jest.spyOn(addressService, 'findAddressById');
     const spyProductService = jest.spyOn(productService, 'findAllProducts');
     const spyCartServiceClear = jest.spyOn(cartService, 'clearCart');
     const spyOrderProductService = jest.spyOn(
@@ -198,7 +197,6 @@ describe('OrderService', () => {
 
     expect(order).toEqual(orderMock);
     expect(spyCartService.mock.calls.length).toEqual(1);
-    expect(spyAddressService.mock.calls.length).toEqual(1);
     expect(spyProductService.mock.calls.length).toEqual(1);
     expect(spyPaymentService.mock.calls.length).toEqual(1);
     expect(spySave.mock.calls.length).toEqual(1);
