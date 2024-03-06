@@ -23,10 +23,12 @@ export class CreateTableCategory1687518307039 implements MigrationInterface {
           {
             name: 'created_at',
             type: 'timestamp',
+            default: 'CURRENT_TIMESTAMP()',
           },
           {
             name: 'updated_at',
             type: 'timestamp',
+            default: 'CURRENT_TIMESTAMP()',
           },
         ],
       }),

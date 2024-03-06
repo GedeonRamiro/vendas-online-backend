@@ -23,10 +23,12 @@ export class CreateTableStatus1694775937246 implements MigrationInterface {
           {
             name: 'created_at',
             type: 'timestamp',
+            default: 'CURRENT_TIMESTAMP()',
           },
           {
             name: 'updated_at',
             type: 'timestamp',
+            default: 'CURRENT_TIMESTAMP()',
           },
         ],
       }),

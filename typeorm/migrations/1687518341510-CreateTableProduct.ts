@@ -43,10 +43,12 @@ export class CreateTableProduct1687518341510 implements MigrationInterface {
           {
             name: 'created_at',
             type: 'timestamp',
+            default: 'CURRENT_TIMESTAMP()',
           },
           {
             name: 'updated_at',
             type: 'timestamp',
+            default: 'CURRENT_TIMESTAMP()',
           },
         ],
       }),

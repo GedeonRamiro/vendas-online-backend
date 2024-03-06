@@ -5,13 +5,11 @@ import {
   TableForeignKey,
 } from 'typeorm';
 
-export class CreateTableOrderProduct1695291601091
-  implements MigrationInterface
-{
+export class CreateTableOrder1709293477951 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(
       new Table({
-        name: 'order_product',
+        name: 'order',
         columns: [
           {
             name: 'id',
@@ -23,57 +21,68 @@ export class CreateTableOrderProduct1695291601091
           },
 
           {
-            name: 'order_id',
+            name: 'user_id',
             type: 'varchar',
             isNullable: false,
           },
           {
-            name: 'product_id',
+            name: 'address_id',
             type: 'varchar',
             isNullable: false,
           },
           {
-            name: 'amount',
-            type: 'varchar',
+            name: 'date',
+            type: 'timestamp',
             isNullable: false,
           },
           {
-            name: 'price',
+            name: 'payment_id',
             type: 'varchar',
             isNullable: false,
           },
           {
             name: 'created_at',
             type: 'timestamp',
+            default: 'CURRENT_TIMESTAMP()',
           },
           {
             name: 'updated_at',
             type: 'timestamp',
+            default: 'CURRENT_TIMESTAMP()',
           },
         ],
       }),
     );
 
     await queryRunner.createForeignKey(
-      'order_product',
+      'order',
       new TableForeignKey({
-        columnNames: ['order_id'],
+        columnNames: ['user_id'],
         referencedColumnNames: ['id'],
-        referencedTableName: 'order',
+        referencedTableName: 'user',
       }),
     );
 
     await queryRunner.createForeignKey(
-      'order_product',
+      'order',
       new TableForeignKey({
-        columnNames: ['product_id'],
+        columnNames: ['address_id'],
         referencedColumnNames: ['id'],
-        referencedTableName: 'product',
+        referencedTableName: 'address',
+      }),
+    );
+
+    await queryRunner.createForeignKey(
+      'order',
+      new TableForeignKey({
+        columnNames: ['payment_id'],
+        referencedColumnNames: ['id'],
+        referencedTableName: 'payment',
       }),
     );
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.dropTable('order_product');
+    await queryRunner.dropTable('order');
   }
 }
