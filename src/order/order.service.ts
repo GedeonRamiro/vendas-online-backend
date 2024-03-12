@@ -104,4 +104,16 @@ export class OrderService {
 
     return orders;
   }
+
+  async findAllOrders(): Promise<OrderEntity[]> {
+    const orders = await this.orderRepository.find({
+      relations: { user: true },
+    });
+
+    if (!orders || orders.length === 0) {
+      throw new NotFoundException('Orders not found');
+    }
+
+    return orders;
+  }
 }
