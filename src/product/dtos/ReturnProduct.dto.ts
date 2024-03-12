@@ -6,7 +6,7 @@ export class ReturnProductDto {
   name: string;
   price: number;
   image: string;
-  category: ReturnCategoryDto;
+  category?: ReturnCategoryDto;
 
   constructor(product: ProductEntity) {
     this.id = product.id;

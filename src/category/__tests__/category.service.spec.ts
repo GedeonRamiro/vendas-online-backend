@@ -5,10 +5,14 @@ import { CategoryService } from '../category.service';
 import { CategoryEntity } from '../entities/category.entity';
 import { categoryMock } from '../__mocks__/category.mock';
 import { createCategoryMock } from '../__mocks__/createCategory.mock';
+import { ProductService } from '../../product/product.service';
+import { countProductMock } from '../../product/__mocks__/countProductMock';
+import { ReturnCategoryDto } from '../dtos/ReturnCategory.dto';
 
 describe('CategoryService', () => {
   let service: CategoryService;
   let categoryRepository: Repository<CategoryEntity>;
+  let productService: ProductService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -22,10 +26,19 @@ describe('CategoryService', () => {
             save: jest.fn().mockResolvedValue(categoryMock),
           },
         },
+        {
+          provide: ProductService,
+          useValue: {
+            countProducstByCategoryId: jest
+              .fn()
+              .mockResolvedValue([countProductMock]),
+          },
+        },
       ],
     }).compile();
 
     service = module.get<CategoryService>(CategoryService);
+    productService = module.get<ProductService>(ProductService);
     categoryRepository = module.get<Repository<CategoryEntity>>(
       getRepositoryToken(CategoryEntity),
     );
@@ -33,13 +46,16 @@ describe('CategoryService', () => {
 
   it('should be defined', () => {
     expect(service).toBeDefined();
+    expect(productService).toBeDefined();
     expect(categoryRepository).toBeDefined();
   });
 
   it('should return list category', async () => {
     const category = await service.findAllCategories();
 
-    expect(category).toEqual([categoryMock]);
+    expect(category).toEqual([
+      new ReturnCategoryDto(categoryMock, countProductMock.total),
+    ]);
   });
 
   it('should return error in list category empty', async () => {
