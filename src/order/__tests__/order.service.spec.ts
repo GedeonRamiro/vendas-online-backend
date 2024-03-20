@@ -105,6 +105,7 @@ describe('OrderService', () => {
     expect(spy.mock.calls[0][0]).toEqual({
       where: {
         userId: userEntityMock.id,
+        id: undefined,
       },
       relations: {
         address: {
@@ -118,6 +119,7 @@ describe('OrderService', () => {
         payment: {
           paymentStatus: true,
         },
+        user: false,
       },
     });
   });
